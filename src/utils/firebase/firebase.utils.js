@@ -83,15 +83,18 @@ export const createUserDocumentFromAuth = async (
   additionalInformation = {}
 ) => {
   if (!userAuth) return;
-
+  //takes database, collection name, and id of a document
   const userDocRef = doc(db, 'users', userAuth.uid);
-
+  //snapshot of document
   const userSnapshot = await getDoc(userDocRef);
-
+  //no record with ID, yet
   if (!userSnapshot.exists()) {
+    //destructure
     const { displayName, email } = userAuth;
+    //makes date
     const createdAt = new Date();
 
+    //makes a record, last variable is added to the end of the array
     try {
       await setDoc(userDocRef, {
         displayName,
@@ -106,6 +109,9 @@ export const createUserDocumentFromAuth = async (
 
   return userDocRef;
 };
+
+
+
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
